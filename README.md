@@ -16,6 +16,7 @@ This is a simple web application that allows users to retrieve and display count
 - **JavaScript (ES6)** ⚡ – for handling API requests and updating the DOM
 
 ## Output Screenshots
+[Live Page](https://jaya-chithra-n.github.io/Country-Data-Viewer/)
 ![Screenshot 2025-02-04 133312](https://github.com/user-attachments/assets/3a55ed5b-4a60-4780-a1bf-52dc8266a1c0)
 ![Screenshot 2025-02-04 133351](https://github.com/user-attachments/assets/23bbbc15-e7ff-4f0b-aebc-74e47fe066f0)
 ![Screenshot 2025-02-04 133424](https://github.com/user-attachments/assets/e18ff320-75cc-4296-88b2-cc186172f2c5)
