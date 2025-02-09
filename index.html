@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Country Data from REST API</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    #country-input {
+      padding: 12px;
+      font-size: 16px;
+      margin: 10px auto;
+      display: block;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      box-sizing: border-box;
+      background-color: #fff;
+    }
+    #submit-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #3498db;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    #submit-btn:hover {
+      background-color: #2980b9;
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+    }
+    #country-details {
+      background-color: #fff;
+      border-radius: 5px;
+      padding: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      margin:auto;
+      width: 80%;
+      max-width: 600px;
+      box-sizing: border-box;
+    }
+    #country-details h2 {
+      color: #2c3e50;
+      font-size: 24px;
+    }
+    #country-details p {
+      color: #555;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    #country-details h3 {
+      color: #333;
+      font-size: 20px;
+    }
+    #country-details img {
+      border-radius: 5px;
+      max-width: 100px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Select a Country</h1>
+  <input type="text" id="country-input" placeholder="Enter the country name" />
+  <button id="submit-btn">Submit</button>
+  
+  <h2>Country Details</h2>
+  <div id="country-details"></div>
+
+  <script>
+    const apiURL = "https://restcountries.com/v3.1/all";
+    let countriesData = [];
+
+    fetch(apiURL)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then(data => {
+        countriesData = data;
+      })
+      .catch(error => {
+        console.error("There was an error with the fetch operation:", error);
+      });
+
+    const submitButton = document.getElementById('submit-btn');
+    submitButton.addEventListener('click', () => {
+      const selectedCountryName = document.getElementById('country-input').value.trim();
+      const countryData = countriesData.find(country => country.name.common.toLowerCase() === selectedCountryName.toLowerCase());
+
+      if (countryData) {
+        const countryDetails = document.getElementById('country-details');
+        countryDetails.innerHTML = `
+          <h2>${countryData.name.common}</h2>
+          <p><strong>Capital:</strong> ${countryData.capital ? countryData.capital[0] : "N/A"}</p>
+          <p><strong>Population:</strong> ${countryData.population.toLocaleString()}</p>
+          <p><strong>Region:</strong> ${countryData.region}</p>
+          <p><strong>Subregion:</strong> ${countryData.subregion}</p>
+          <p><strong>Area:</strong> ${countryData.area} km²</p>
+          <p><strong>Languages:</strong> ${Object.values(countryData.languages || {}).join(', ')}</p>
+          <h3>Flag</h3>
+          <img src="${countryData.flags.png}" alt="Flag of ${countryData.name.common}">
+        `;
+      } else {
+        alert("Country not found. Please make sure the name is correct.");
+      }
+    });
+  </script>
+
+</body>
+</html>
